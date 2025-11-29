@@ -43,3 +43,7 @@ export default function RightNav({ onNext, onPrev, canGoNext, canGoPrev }: Right
   );
 }
 
+
+
+
+

@@ -14,8 +14,8 @@
 
 /* Custom Theme Variables */
 :root {
-  --background: var(--color-background);
-  --foreground: var(--color-foreground);
+  --background: #000000;
+  --foreground: #ededed;
 }
 
 /* Base Styles */
@@ -23,7 +23,7 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
-  overflow: hidden; /* Keep this to prevent native scrolling for our custom behavior */
+  overflow: hidden;
   margin: 0;
   padding: 0;
   width: 100vw;
@@ -33,5 +33,16 @@ body {
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+  
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
   }
 }
