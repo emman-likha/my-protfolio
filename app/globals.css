@@ -13,10 +13,10 @@
 }
 
 /* Custom Theme Variables */
-:root {
+  :root {
   --background: #000000;
-  --foreground: #ededed;
-}
+    --foreground: #ededed;
+  }
 
 /* Base Styles */
 body {

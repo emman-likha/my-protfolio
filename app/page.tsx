@@ -1,39 +1,44 @@
+/**
+ * MAIN PORTFOLIO PAGE (app/page.tsx)
+ * This is the main landing page component that handles:
+ * - Full-page section navigation (Home, Work, Graphics, Videos, About, Contact)
+ * - Project card displays
+ * - Modal interactions
+ * - Keyboard and scroll navigation
+ */
+
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-// Custom Arrow SVG Component
-const LongArrow = ({ className }: { className?: string }) => (
-  <svg 
-    xmlns="http://www.w3.org/2000/svg" 
-    shapeRendering="geometricPrecision" 
-    textRendering="geometricPrecision" 
-    imageRendering="optimizeQuality" 
-    fillRule="evenodd" 
-    clipRule="evenodd" 
-    viewBox="0 0 512 243.58"
-    className={className}
-  >
-    <path 
-      fillRule="nonzero" 
-      d="M373.57 0 512 120.75 371.53 243.58l-20.92-23.91 94.93-83L0 137.09v-31.75l445.55-.41-92.89-81.02z"
-      fill="currentColor"
-    />
-  </svg>
-);
+
+// Component Imports
 import GridBackground from "./components/GridBackground";
 import Navbar from "./components/Navbar";
 import RightNav from "./components/RightNav";
-import ProjectCard from "./components/ProjectCard";
 import ProjectModal from "./components/ProjectModal";
 import { projects, Project } from "./data/projects";
 
+// Section Components
+import HomeSection from "./components/sections/HomeSection";
+import WorkSection from "./components/sections/WorkSection";
+import GraphicsSection from "./components/sections/GraphicsSection";
+import VideosSection from "./components/sections/VideosSection";
+import AboutSection from "./components/sections/AboutSection";
+import ContactSection from "./components/sections/ContactSection";
+
+// Filter projects by type for different sections
 const websites = projects.filter(p => p.type === "website");
 const graphics = projects.filter(p => p.type === "graphic");
 const videos = projects.filter(p => p.type === "video");
 
-// Animation variants for the sliding page effect
+/**
+ * SLIDE ANIMATION VARIANTS
+ * Defines the animation states for section transitions:
+ * - enter: Initial state when entering (slides in from top/bottom with blur)
+ * - center: Active state (fully visible, no blur)
+ * - exit: Final state when leaving (slides out with blur)
+ */
 const slideVariants = {
   enter: (direction: number) => ({
     y: direction > 0 ? "100%" : "-100%",
@@ -63,224 +68,105 @@ const slideVariants = {
   }),
 };
 
+/**
+ * MAIN HOME COMPONENT
+ * Handles all page state and navigation logic
+ */
 export default function Home() {
-  const router = useRouter();
+  // State: Currently selected project for modal display
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   
-  // Page Navigation State
+  // State: Page navigation - [currentSectionIndex, direction]
   const [page, setPage] = useState([0, 0]);
   const [currentSection, direction] = page;
   const [isAnimating, setIsAnimating] = useState(false);
   const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
 
+  /**
+   * SECTION DATA ARRAY
+   * Defines all the sections/pages of the portfolio:
+   * Each section has: id, subtitle, and content component
+   */
   const sectionData = [
+    // SECTION 1: HOME / HERO
     {
       id: "home",
       subtitle: "Crafting digital experiences",
-      content: (
-        <div className="max-w-5xl">
-          <motion.h1 
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.4 }}
-            className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 tracking-tighter"
-          >
-            <span className="block text-white">ARCHITECTING</span>
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-cyan-200 to-white">
-              DIGITAL REALITIES.
-            </span>
-          </motion.h1>
-          <motion.div 
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.6 }}
-            className="pl-6 border-l-2 border-cyan-400"
-          >
-            <p className="text-xl md:text-2xl text-gray-300 font-light leading-relaxed mb-4">
-              I bridge the gap between <span className="text-cyan-400 font-semibold">creative design</span> and <span className="text-cyan-400 font-semibold">robust engineering</span>.
-            </p>
-            <p className="text-lg text-gray-400 font-mono">
-              Specializing in Next.js, interactive motion, and brand identity to build immersive web experiences that leave a lasting impact.
-            </p>
-          </motion.div>
-        </div>
-      ),
+      content: <HomeSection />,
     },
+    // SECTION 2: WORK / WEBSITES
     {
       id: "work",
       subtitle: "Web Development",
-      content: (
-        <div className="w-full max-w-7xl">
-          <h2 className="text-4xl font-bold mb-8 text-cyan-400">SELECTED WORKS</h2>
-          <div className="flex flex-col md:flex-row gap-8 items-center">
-            {/* Projects Grid - Left Side */}
-            <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-              {websites.slice(0, 2).map((project) => (
-                <ProjectCard 
-                  key={project.id} 
-                  project={project} 
-                  onClick={setSelectedProject} 
-                />
-              ))}
-            </div>
-            
-            {/* SEE MORE Button - Right Side */}
-            <motion.button
-              onClick={() => router.push('/projects')}
-              whileHover={{ x: 10 }}
-              className="flex items-center gap-4 text-cyan-400 hover:text-cyan-300 font-mono text-2xl md:text-3xl tracking-widest transition-colors group shrink-0 md:ml-8"
-            >
-              <span>SEE MORE</span>
-              <LongArrow className="w-24 h-auto group-hover:translate-x-2 transition-transform" />
-            </motion.button>
-          </div>
-        </div>
-      ),
+      content: <WorkSection projects={websites} onProjectClick={setSelectedProject} />,
     },
+    // SECTION 3: GRAPHICS & BRANDING
     {
       id: "graphics",
       subtitle: "Visual Design",
-      content: (
-        <div className="w-full max-w-7xl">
-          <h2 className="text-4xl font-bold mb-8 text-cyan-400">GRAPHICS & BRANDING</h2>
-          <div className="flex flex-col md:flex-row gap-8 items-center">
-            <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-              {graphics.slice(0, 2).map((project) => (
-                <ProjectCard 
-                  key={project.id} 
-                  project={project} 
-                  onClick={setSelectedProject} 
-                />
-              ))}
-            </div>
-            
-            <motion.button
-              onClick={() => router.push('/gallery')}
-              whileHover={{ x: 10 }}
-              className="flex items-center gap-4 text-cyan-400 hover:text-cyan-300 font-mono text-2xl md:text-3xl tracking-widest transition-colors group shrink-0 md:ml-8"
-            >
-              <span>SEE MORE</span>
-              <LongArrow className="w-24 h-auto group-hover:translate-x-2 transition-transform" />
-            </motion.button>
-          </div>
-        </div>
-      ),
+      content: <GraphicsSection projects={graphics} onProjectClick={setSelectedProject} />,
     },
+    // SECTION 4: VIDEOS / VIDEOGRAPHY
     {
       id: "videos",
       subtitle: "Motion & Video",
-      content: (
-        <div className="w-full max-w-7xl">
-          <h2 className="text-4xl font-bold mb-8 text-cyan-400">VIDEOGRAPHY</h2>
-          <div className="flex flex-col md:flex-row gap-8 items-center">
-            <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-              {videos.slice(0, 2).map((project) => (
-                <ProjectCard 
-                  key={project.id} 
-                  project={project} 
-                  onClick={setSelectedProject} 
-                />
-              ))}
-            </div>
-            
-            <motion.button
-              onClick={() => router.push('/videos')}
-              whileHover={{ x: 10 }}
-              className="flex items-center gap-4 text-cyan-400 hover:text-cyan-300 font-mono text-2xl md:text-3xl tracking-widest transition-colors group shrink-0 md:ml-8"
-            >
-              <span>SEE MORE</span>
-              <LongArrow className="w-24 h-auto group-hover:translate-x-2 transition-transform" />
-            </motion.button>
-          </div>
-        </div>
-      ),
+      content: <VideosSection projects={videos} onProjectClick={setSelectedProject} />,
     },
+    // SECTION 5: ABOUT ME
     {
       id: "about",
       subtitle: "The person behind the code",
-      content: (
-        <div className="flex flex-col md:flex-row gap-12 items-center max-w-6xl">
-          <div className="flex-1 text-lg text-gray-300 space-y-6 font-light leading-relaxed">
-            <h2 className="text-4xl font-bold mb-8 text-white">ABOUT ME</h2>
-            <motion.p 
-               initial={{ x: -20, opacity: 0 }}
-               animate={{ x: 0, opacity: 1 }}
-               transition={{ delay: 0.4 }}
-            >
-              I'm a multi-disciplinary creative developer passionate about the intersection of design and technology.
-              My work is driven by the belief that the web should be an immersive extension of reality.
-            </motion.p>
-            <motion.p
-               initial={{ x: -20, opacity: 0 }}
-               animate={{ x: 0, opacity: 1 }}
-               transition={{ delay: 0.6 }}
-            >
-              With a background in both traditional design and modern engineering, I bring a unique perspective to every project, whether it's a complex web application, a brand identity, or a motion graphic piece.
-            </motion.p>
-            
-            <motion.div 
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.8 }}
-              className="flex gap-4 mt-8 flex-wrap"
-            >
-              {["React", "Next.js", "TypeScript", "WebGL", "After Effects", "Figma"].map((tech) => (
-                <span key={tech} className="px-4 py-2 border border-cyan-500/30 rounded-full text-cyan-400 font-mono text-sm">
-                  {tech}
-                </span>
-              ))}
-            </motion.div>
-          </div>
-        </div>
-      ),
+      content: <AboutSection />,
     },
+    // SECTION 6: CONTACT
     {
       id: "contact",
       subtitle: "Let's build something together",
-      content: (
-        <div className="text-center">
-          <motion.a 
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: 0.4, type: "spring" }}
-            href="mailto:hello@example.com" 
-            className="text-5xl md:text-7xl font-bold text-white hover:text-cyan-400 transition-colors tracking-tight"
-          >
-            hello@example.com
-          </motion.a>
-          <motion.div 
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.6 }}
-            className="flex justify-center gap-8 mt-12"
-          >
-            {["GitHub", "LinkedIn", "Twitter", "Instagram"].map((social) => (
-              <a key={social} href="#" className="text-gray-400 hover:text-white font-mono text-lg uppercase tracking-widest hover:underline underline-offset-8 decoration-cyan-400">
-                {social}
-              </a>
-            ))}
-          </motion.div>
-        </div>
-      ),
+      content: <ContactSection />,
     },
   ];
 
+  /**
+   * SECTION NAVIGATION FUNCTION
+   * Changes the current section with animation
+   * @param newDirection - 1 for next, -1 for previous
+   */
   const changeSection = useCallback((newDirection: number) => {
-    if (isAnimating || selectedProject) return; 
+    if (isAnimating || selectedProject) return; // Prevent navigation during animation or when modal is open
     
     const nextIndex = currentSection + newDirection;
     
     if (nextIndex >= 0 && nextIndex < sectionData.length) {
       setIsAnimating(true);
       setPage([nextIndex, newDirection]);
-      setTimeout(() => setIsAnimating(false), 600); 
+      setTimeout(() => setIsAnimating(false), 600); // Reset animation flag after transition
     }
   }, [currentSection, isAnimating, selectedProject, sectionData.length]);
 
+  // Navigation helper functions
   const nextSection = () => changeSection(1);
   const prevSection = () => changeSection(-1);
+  
+  /**
+   * NAVIGATE TO SPECIFIC SECTION
+   * Jumps directly to a section by index
+   * @param sectionIndex - Index of the section to navigate to
+   */
+  const goToSection = useCallback((sectionIndex: number) => {
+    if (isAnimating || selectedProject) return;
+    if (sectionIndex < 0 || sectionIndex >= sectionData.length) return;
+    if (sectionIndex === currentSection) return; // Already on this section
+    
+    setIsAnimating(true);
+    const direction = sectionIndex > currentSection ? 1 : -1;
+    setPage([sectionIndex, direction]);
+    setTimeout(() => setIsAnimating(false), 600);
+  }, [currentSection, isAnimating, selectedProject, sectionData.length]);
 
-  // Handle keyboard navigation
+  /**
+   * KEYBOARD NAVIGATION
+   * Arrow keys to navigate sections, Escape to close modal
+   */
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (selectedProject) {
@@ -294,7 +180,11 @@ export default function Home() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [nextSection, prevSection, selectedProject]);
 
-  // Handle Wheel/Scroll navigation
+  /**
+   * MOUSE WHEEL / SCROLL NAVIGATION
+   * Scroll up/down to navigate between sections
+   * Includes debouncing to prevent rapid section changes
+   */
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
       if (selectedProject) return;
@@ -319,9 +209,13 @@ export default function Home() {
 
   return (
     <main className="relative w-full h-screen overflow-hidden bg-black text-white selection:bg-cyan-500/30 selection:text-cyan-200">
+      {/* Background Grid Pattern */}
       <GridBackground />
-      <Navbar />
       
+      {/* Top Navigation Bar */}
+      <Navbar onNavigate={goToSection} />
+      
+      {/* Right Side Navigation Arrows */}
       <RightNav 
         onNext={nextSection} 
         onPrev={prevSection} 
@@ -329,6 +223,7 @@ export default function Home() {
         canGoPrev={currentSection > 0}
       />
 
+      {/* Main Content Area - Animated Section Transitions */}
       <div className="relative w-full h-full overflow-hidden">
         <AnimatePresence initial={false} custom={direction} mode="popLayout">
           <motion.div
@@ -342,6 +237,7 @@ export default function Home() {
           >
             <div className="w-full h-full flex flex-col justify-center">
               <div className="overflow-y-auto max-h-full pr-4 no-scrollbar">
+                {/* Render current section content */}
                 {sectionData[currentSection].content}
               </div>
             </div>
@@ -349,35 +245,35 @@ export default function Home() {
         </AnimatePresence>
       </div>
 
-      {/* Bottom Left Info & Indicators */}
-      <div className="absolute bottom-8 left-8 md:left-24 z-20 flex flex-col gap-4">
-        {/* Section Title & Number */}
+      {/* Bottom Left: Section Number & Title Indicator */}
+      <div className="absolute bottom-4 md:bottom-8 left-4 md:left-8 lg:left-24 z-20 flex flex-col gap-3 md:gap-4">
+        {/* Section Number (e.g., "01", "02") and Subtitle */}
         <motion.div 
           key={currentSection}
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
-          className="flex items-center gap-4 text-cyan-400 font-mono text-sm tracking-widest"
+          className="flex items-center gap-2 md:gap-4 text-cyan-400 font-mono text-xs md:text-sm tracking-widest"
         >
-          <span className="text-xl font-bold">0{currentSection + 1}</span>
-          <span className="w-12 h-[1px] bg-cyan-400/50" />
-          <span className="uppercase">{sectionData[currentSection].subtitle}</span>
+          <span className="text-4xl md:text-5xl lg:text-6xl font-bold">0{currentSection + 1}</span>
+          <span className="w-8 md:w-12 h-[1px] bg-cyan-400/50" />
+          <span className="uppercase hidden sm:inline">{sectionData[currentSection].subtitle}</span>
         </motion.div>
 
-        {/* Indicators */}
-        <div className="flex gap-2">
+        {/* Progress Dots - Shows which section is active */}
+        <div className="flex gap-1.5 md:gap-2">
           {sectionData.map((_, idx) => (
             <div 
               key={idx}
               className={`h-1 transition-all duration-300 ${
-                idx === currentSection ? "w-8 bg-cyan-400" : "w-2 bg-white/20"
+                idx === currentSection ? "w-6 md:w-8 bg-cyan-400" : "w-1.5 md:w-2 bg-white/20"
               }`}
             />
           ))}
         </div>
       </div>
 
-      {/* Project Modal */}
+      {/* Project Detail Modal - Opens when a project card is clicked */}
       <ProjectModal 
         project={selectedProject} 
         isOpen={!!selectedProject} 

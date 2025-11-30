@@ -1,30 +1,46 @@
+/**
+ * PROJECTS DATA FILE (app/data/projects.ts)
+ * Contains all project data for the portfolio:
+ * - Project type definitions
+ * - Project interface
+ * - Array of all projects (websites, graphics, videos)
+ */
+
 export type ProjectType = "website" | "graphic" | "video";
 
+/**
+ * PROJECT INTERFACE
+ * Defines the structure of a project object
+ */
 export interface Project {
   id: string;
   type: ProjectType;
   title: string;
   category: string;
-  thumbnail: string; // Using placeholder colors or gradients for now
+  thumbnail: string; // Image URL or CSS gradient class
   description: string;
   year: string;
   
-  // Website specific
+  // Website-specific fields
   liveUrl?: string;
   githubUrl?: string;
   techStack?: string[];
   
-  // Graphic specific
+  // Graphic-specific fields
   images?: string[]; // Array of image URLs
   tools?: string[];
   
-  // Video specific
+  // Video-specific fields
   videoUrl?: string; // YouTube/Vimeo ID or URL
   duration?: string;
 }
 
+/**
+ * PROJECTS ARRAY
+ * All portfolio projects organized by type
+ */
 export const projects: Project[] = [
-  // Websites
+  // ========== WEBSITE PROJECTS ==========
   {
     id: "web-1",
     type: "website",
@@ -81,7 +97,7 @@ export const projects: Project[] = [
     techStack: ["Next.js", "State Management", "Local Storage", "Tailwind CSS"]
   },
 
-  // Graphics
+  // ========== GRAPHIC DESIGN PROJECTS ==========
   {
     id: "gfx-1",
     type: "graphic",
@@ -105,7 +121,7 @@ export const projects: Project[] = [
     tools: ["Photoshop", "Blender"]
   },
 
-  // Videos
+  // ========== VIDEO PROJECTS ==========
   {
     id: "vid-1",
     type: "video",

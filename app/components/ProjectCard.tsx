@@ -1,3 +1,13 @@
+/**
+ * PROJECT CARD COMPONENT (app/components/ProjectCard.tsx)
+ * Displays a single project as a card with:
+ * - Thumbnail (image or gradient background)
+ * - Project category tag
+ * - Project title and metadata
+ * - Hover effects and quick action buttons
+ * - Click to open modal with full details
+ */
+
 "use client";
 
 import { useState } from "react";
@@ -12,13 +22,14 @@ interface ProjectCardProps {
 }
 
 export default function ProjectCard({ project, onClick }: ProjectCardProps) {
+  // Determine icon based on project type
   const Icon = project.type === "video" ? Play : project.type === "website" ? Monitor : ImageIcon;
   const [imageError, setImageError] = useState(false);
   
   // Check if thumbnail is an image URL or a gradient class
   const isImageUrl = (project.thumbnail.startsWith('http') || project.thumbnail.startsWith('/')) && !imageError;
   
-  // Fallback gradient colors for each project type
+  // Fallback gradient colors for each project (used when image fails to load)
   const fallbackGradients: Record<string, string> = {
     "web-1": "bg-gradient-to-br from-emerald-500 to-teal-600",
     "web-2": "bg-gradient-to-br from-blue-500 to-indigo-600",

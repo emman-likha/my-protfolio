@@ -1,3 +1,13 @@
+/**
+ * PROJECT MODAL COMPONENT (app/components/ProjectModal.tsx)
+ * Displays detailed information about a selected project in a full-screen modal
+ * Features:
+ * - Animated backdrop and modal entrance
+ * - Left side: Project media (images/video/thumbnail)
+ * - Right side: Project details, links, tech stack
+ * - Close button and click-outside-to-close functionality
+ */
+
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
@@ -39,43 +49,30 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
             </button>
 
             {/* Left Side - Media */}
-            <div className="w-full md:w-2/3 bg-black relative overflow-hidden">
+            <div className="w-full md:w-2/3 bg-black relative overflow-y-auto no-scrollbar">
               {project.type === "video" && project.videoUrl ? (
                 <div className="w-full h-full min-h-[300px] flex items-center justify-center bg-slate-950">
-                   {/* Video Embed */}
-                   <iframe
-                     src={project.videoUrl}
-                     className="w-full h-full min-h-[500px]"
-                     title={`Video: ${project.title}`}
-                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                     allowFullScreen
-                   />
+                   {/* Placeholder for Video Embed */}
+                   <div className="text-center">
+                      <div className="w-20 h-20 rounded-full border-2 border-cyan-400 flex items-center justify-center mx-auto mb-4">
+                        <div className="w-0 h-0 border-l-[20px] border-l-cyan-400 border-y-[12px] border-y-transparent ml-2" />
+                      </div>
+                      <p className="text-gray-400">Video Placeholder</p>
+                      <p className="text-xs text-gray-600 mt-2">{project.videoUrl}</p>
+                   </div>
                 </div>
               ) : project.type === "graphic" && project.images ? (
-                <div className="grid grid-cols-1 gap-4 p-4 md:p-8 overflow-y-auto h-full">
+                <div className="grid grid-cols-1 gap-4 p-4 md:p-8">
                   {project.images.map((img, idx) => (
                     <div key={idx} className="w-full aspect-square bg-slate-800 rounded-lg flex items-center justify-center text-gray-600">
                       Image {idx + 1} Placeholder
                     </div>
                   ))}
                 </div>
-              ) : project.type === "website" && project.liveUrl ? (
-                 // Website - Live Preview
-                 <div className="w-full h-full relative">
-                   <iframe 
-                     src={project.liveUrl}
-                     className="w-full h-full min-h-[600px]"
-                     title={`Preview of ${project.title}`}
-                     sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
-                   />
-                   <div className="absolute top-4 left-4 bg-black/70 backdrop-blur-sm px-3 py-1 rounded-full text-xs text-cyan-400 font-mono">
-                     LIVE PREVIEW
-                   </div>
-                 </div>
               ) : (
-                 // Fallback
+                 // Website / Default
                  <div className={`w-full h-full min-h-[300px] ${project.thumbnail} flex items-center justify-center`}>
-                    <span className="text-2xl font-bold text-white/20">No Preview Available</span>
+                    <span className="text-2xl font-bold text-white/20">Project Preview</span>
                  </div>
               )}
             </div>
