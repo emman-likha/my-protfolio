@@ -5,10 +5,22 @@
   --color-foreground: #ededed;
   
   --animate-grid-flow: grid-flow 20s linear infinite;
+  --animate-marquee: marquee 25s linear infinite;
+  --animate-marquee-vertical: marquee-vertical 25s linear infinite;
   
   @keyframes grid-flow {
     0% { transform: translateY(0); }
     100% { transform: translateY(40px); }
+  }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(calc(-100% - var(--gap))); }
+  }
+
+  @keyframes marquee-vertical {
+    from { transform: translateY(0); }
+    to { transform: translateY(calc(-100% - var(--gap))); }
   }
 }
 

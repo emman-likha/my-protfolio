@@ -46,7 +46,7 @@ export const projects: Project[] = [
     type: "website",
     title: "Currency Converter",
     category: "Web Application",
-    thumbnail: "/projects/currency-converter.jpg", // Add screenshot to public/projects/ folder
+    thumbnail: "https://images.unsplash.com/photo-1580519542036-c47de6196ba5?q=80&w=1000&auto=format&fit=crop",
     description: "A real-time currency conversion application with live exchange rates. Features intuitive UI, multiple currency support, and instant conversion calculations.",
     year: "2024",
     liveUrl: "https://currency-conversion-xi.vercel.app/",
@@ -57,7 +57,7 @@ export const projects: Project[] = [
     type: "website",
     title: "TechFlow Landing Page",
     category: "Landing Page",
-    thumbnail: "/projects/techflow-landing.jpg", // Add screenshot to public/projects/ folder
+    thumbnail: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1000&auto=format&fit=crop",
     description: "A modern business landing page showcasing digital solutions. Features pricing tables, testimonials, feature sections, and a responsive design optimized for conversions.",
     year: "2024",
     liveUrl: "https://landingpage-practice.vercel.app/",
@@ -68,7 +68,7 @@ export const projects: Project[] = [
     type: "website",
     title: "Flower Shop E-commerce",
     category: "E-commerce",
-    thumbnail: "/projects/flower-shop.jpg", // Add screenshot to public/projects/ folder
+    thumbnail: "https://images.unsplash.com/photo-1472396961693-142e6e596e35?q=80&w=1000&auto=format&fit=crop",
     description: "A beautiful e-commerce platform for a flower shop. Complete shopping experience with product catalog, cart functionality, and seamless checkout process.",
     year: "2024",
     liveUrl: "https://flower-shop-ecommerce-red.vercel.app/",
@@ -79,7 +79,7 @@ export const projects: Project[] = [
     type: "website",
     title: "Civic Classic Blog",
     category: "Blog Platform",
-    thumbnail: "/projects/civic-blog.jpg", // Add screenshot to public/projects/ folder
+    thumbnail: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=1000&auto=format&fit=crop",
     description: "A dedicated blog platform celebrating the classic Honda Civic. Features timeline, model galleries, specifications, and a rich content experience for automotive enthusiasts.",
     year: "2024",
     liveUrl: "https://civic-blog.vercel.app/",
@@ -90,7 +90,7 @@ export const projects: Project[] = [
     type: "website",
     title: "Todo List App",
     category: "Productivity Tool",
-    thumbnail: "/projects/todo-list.jpg", // Add screenshot to public/projects/ folder
+    thumbnail: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?q=80&w=1000&auto=format&fit=crop",
     description: "A clean and efficient todo list application. Manage tasks with an intuitive interface, featuring add, edit, delete, and completion tracking functionality.",
     year: "2024",
     liveUrl: "https://todo-list-mu-nine-39.vercel.app/",
