@@ -28,8 +28,10 @@ export default function WorkSection({ projects, onProjectClick }: WorkSectionPro
   return (
     <div className="w-full max-w-7xl relative h-full pt-20 md:pt-32 px-4 md:px-0 flex items-center justify-center">
       {/* Section Title - Fixed at top of viewport, aligned with navbar */}
-      <div className="fixed top-20 md:top-32 left-4 md:left-20 h-[8rem] md:h-[10rem] flex items-center justify-start z-0 scale-75 md:scale-100 origin-left pointer-events-none opacity-50">
-         <TextHoverEffect text="| PROJECTS" />
+      <div className="fixed top-10 md:top-32 left-0 md:left-20 w-full md:w-auto h-[14rem] md:h-[10rem] flex items-center justify-center md:justify-start z-0 origin-center md:origin-left pointer-events-none opacity-50 px-4 md:px-0 overflow-visible">
+         <div className="w-[120%] md:w-auto scale-150 md:scale-100 flex justify-center md:block ml-10 md:ml-0">
+            <TextHoverEffect text="| PROJECTS" />
+         </div>
       </div>
       
       {/* Projects Content */}
@@ -68,18 +70,32 @@ export default function WorkSection({ projects, onProjectClick }: WorkSectionPro
                 </div>
             </div>
 
-            {/* Mobile: Horizontal Marquee */}
-            <div className="md:hidden w-full h-full flex items-center">
-                <Marquee className="[--duration:20s]" pauseOnHover>
-                    {websiteProjects.map((project) => (
-                        <div key={project.id} className="w-[85vw] h-[300px] px-2">
-                             <ProjectCard 
-                                project={project} 
-                                onClick={onProjectClick} 
-                            />
-                        </div>
-                    ))}
-                </Marquee>
+            {/* Mobile: Horizontal Marquee and Featured Project */}
+            <div className="md:hidden w-full h-full flex flex-col justify-center gap-8 px-4">
+                {/* Featured Project */}
+                <div className="w-full h-[250px] relative z-20">
+                     {firstProject && (
+                        <ProjectCard 
+                            project={firstProject} 
+                            onClick={onProjectClick} 
+                            isFeatured={true}
+                        />
+                    )}
+                </div>
+
+                {/* Marquee */}
+                <div className="w-full">
+                    <Marquee className="[--duration:20s]" pauseOnHover>
+                        {websiteProjects.slice(1).map((project) => (
+                            <div key={project.id} className="w-[70vw] h-[200px] px-2">
+                                <ProjectCard 
+                                    project={project} 
+                                    onClick={onProjectClick} 
+                                />
+                            </div>
+                        ))}
+                    </Marquee>
+                </div>
             </div>
         </div>
       </div>
@@ -87,10 +103,10 @@ export default function WorkSection({ projects, onProjectClick }: WorkSectionPro
       {/* Mobile SEE MORE Button - Bottom of screen */}
       <motion.button
         onClick={() => router.push('/projects/websites')}
-        className="md:hidden fixed bottom-20 left-1/2 -translate-x-1/2 flex items-center gap-4 text-cyan-400 hover:text-cyan-300 font-mono text-lg tracking-widest transition-colors group z-40 bg-black/50 backdrop-blur-sm px-6 py-3 rounded-full border border-cyan-400/50"
+        className="md:hidden fixed bottom-24 left-1/2 -translate-x-1/2 flex items-center gap-2 text-cyan-400 hover:text-cyan-300 font-mono text-sm tracking-widest transition-colors group z-40 bg-black/50 backdrop-blur-sm px-4 py-2 rounded-full border border-cyan-400/50"
       >
         <span className="whitespace-nowrap">SEE MORE</span>
-        <ChevronRight className="w-5 h-5 text-cyan-400" />
+        <ChevronRight className="w-4 h-4 text-cyan-400" />
       </motion.button>
     </div>
   );

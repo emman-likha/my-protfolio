@@ -52,54 +52,54 @@ export default function ProjectCard({ project, onClick, isFeatured = false }: Pr
     >
       <CardContainer containerClassName="py-2 md:py-4 px-2 md:px-4 block w-full" className="w-full">
         <CardBody className="group/card relative w-full aspect-video bg-slate-900 rounded-xl overflow-hidden border border-white/10 hover:border-cyan-400/50 transition-colors h-auto">
-          {/* Thumbnail - Image or Gradient */}
+      {/* Thumbnail - Image or Gradient */}
           <CardItem 
             translateZ="50"
             className="w-full h-full absolute inset-0"
           >
-            {isImageUrl ? (
+      {isImageUrl ? (
               <div className="absolute inset-0 w-full h-full">
-                <Image
-                  src={project.thumbnail}
-                  alt={project.title}
-                  fill
+          <Image
+            src={project.thumbnail}
+            alt={project.title}
+            fill
                   className="object-cover opacity-50 group-hover/card:opacity-70 transition-opacity duration-500"
-                  unoptimized={project.thumbnail.startsWith('http')}
-                  onError={() => setImageError(true)}
-                />
-              </div>
-            ) : (
+            unoptimized={project.thumbnail.startsWith('http')}
+            onError={() => setImageError(true)}
+          />
+        </div>
+      ) : (
               <div className={`absolute inset-0 w-full h-full ${imageError ? fallbackGradient : project.thumbnail} opacity-50 group-hover/card:opacity-70 transition-opacity duration-500`} />
-            )}
-            
-            {/* Overlay */}
+      )}
+      
+      {/* Overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent pointer-events-none" />
           </CardItem>
 
-          {/* Content */}
+      {/* Content */}
           <div className="absolute bottom-0 left-0 p-6 w-full z-20">
             <CardItem translateZ="60" className="w-full">
-              <div className="flex items-center justify-between mb-2">
-                <span className="px-2 py-1 text-xs font-mono border border-cyan-500/30 rounded text-cyan-400 bg-cyan-950/30 backdrop-blur-sm">
-                  {project.category}
-                </span>
+        <div className="flex items-center justify-between mb-2">
+          <span className="px-2 py-1 text-xs font-mono border border-cyan-500/30 rounded text-cyan-400 bg-cyan-950/30 backdrop-blur-sm">
+            {project.category}
+          </span>
                 <Icon className="w-5 h-5 text-white/50 group-hover/card:text-white transition-colors" />
-              </div>
-              
+        </div>
+        
               <h3 
                 onClick={() => onClick(project)}
                 className="text-xl md:text-2xl font-bold text-white mb-1 group-hover/card:text-cyan-400 transition-colors cursor-pointer"
               >
-                {project.title}
-              </h3>
-              
-              <div className="flex items-center gap-2 text-sm text-gray-400 font-mono">
-                <span>{project.year}</span>
-                <span>•</span>
-                <span>{project.type.charAt(0).toUpperCase() + project.type.slice(1)}</span>
-              </div>
+          {project.title}
+        </h3>
+        
+        <div className="flex items-center gap-2 text-sm text-gray-400 font-mono">
+          <span>{project.year}</span>
+          <span>•</span>
+          <span>{project.type.charAt(0).toUpperCase() + project.type.slice(1)}</span>
+        </div>
             </CardItem>
-          </div>
+      </div>
 
           {/* Featured Badge */}
           {isFeatured && (
@@ -112,33 +112,33 @@ export default function ProjectCard({ project, onClick, isFeatured = false }: Pr
             </div>
           )}
 
-          {/* Hover Actions */}
+      {/* Hover Actions */}
           <div className="absolute top-4 right-4 flex gap-2 z-30">
              <CardItem translateZ="80" className="flex gap-2 opacity-0 group-hover/card:opacity-100 transition-opacity duration-300">
-              {project.githubUrl && (
-                <button 
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    window.open(project.githubUrl, '_blank');
-                  }}
-                  className="p-2 bg-black/50 rounded-full text-white hover:bg-white hover:text-black transition-colors"
-                >
-                  <Github className="w-4 h-4" />
-                </button>
-              )}
-              {project.liveUrl && (
-                <button 
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    window.open(project.liveUrl, '_blank');
-                  }}
-                  className="p-2 bg-black/50 rounded-full text-white hover:bg-white hover:text-black transition-colors"
-                >
-                  <ExternalLink className="w-4 h-4" />
-                </button>
-              )}
+        {project.githubUrl && (
+          <button 
+            onClick={(e) => {
+              e.stopPropagation();
+              window.open(project.githubUrl, '_blank');
+            }}
+            className="p-2 bg-black/50 rounded-full text-white hover:bg-white hover:text-black transition-colors"
+          >
+            <Github className="w-4 h-4" />
+          </button>
+        )}
+        {project.liveUrl && (
+          <button 
+            onClick={(e) => {
+              e.stopPropagation();
+              window.open(project.liveUrl, '_blank');
+            }}
+            className="p-2 bg-black/50 rounded-full text-white hover:bg-white hover:text-black transition-colors"
+          >
+            <ExternalLink className="w-4 h-4" />
+          </button>
+        )}
             </CardItem>
-          </div>
+      </div>
           
           {/* Make the whole card clickable via a covering div or just relying on the container events if needed, 
               but we have specific buttons. The original card was clickable. 
