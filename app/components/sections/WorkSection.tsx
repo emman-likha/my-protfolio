@@ -28,8 +28,8 @@ export default function WorkSection({ projects, onProjectClick }: WorkSectionPro
   return (
     <div className="w-full max-w-7xl relative h-full pt-20 md:pt-32 px-4 md:px-0 flex items-center justify-center">
       {/* Section Title - Fixed at top of viewport, aligned with navbar */}
-      <div className="fixed top-10 md:top-32 left-0 md:left-20 w-full md:w-auto h-[14rem] md:h-[10rem] flex items-center justify-center md:justify-start z-0 origin-center md:origin-left pointer-events-none opacity-50 px-4 md:px-0 overflow-visible">
-         <div className="w-[120%] md:w-auto scale-150 md:scale-100 flex justify-center md:block ml-10 md:ml-0">
+      <div className="fixed top-10 md:top-32 left-30 md:left-20 w-full md:w-auto h-[14rem] md:h-[10rem] flex items-center justify-center md:justify-start z-0 origin-center md:origin-left pointer-events-none opacity-50 px-4 md:px-0">
+         <div className="w-full md:w-auto scale-150 md:scale-100">
             <TextHoverEffect text="| PROJECTS" />
          </div>
       </div>
